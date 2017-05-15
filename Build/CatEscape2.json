@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "CatEscape2.data.unityweb",
+"asmCodeUrl": "CatEscape2.asm.code.unityweb",
+"asmMemoryUrl": "CatEscape2.asm.memory.unityweb",
+"asmFrameworkUrl": "CatEscape2.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
