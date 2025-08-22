@@ -29,13 +29,13 @@ but the awkward, human parts too.
 
 A holiday full of sea, pools, and good food
 
-![Cebu Beach View](/assets/img/IMG_5053.JPG)
+<img src="/assets/img/IMG_5053.JPG" alt="Cebu Beach View" style="max-width: 600px; width: 100%; height: auto;">
 
 I spent allmost all day by the sea and the hotel poolwith my family and I wandered local streets a little.
 The hotel was gorgeous, and the meals — especially the local seafood — were fantastic. I remember sitting at a small restaurant,
 feeling the warm breeze, thinking that this trip was exactly what I needed.
 
-![Hotel Pool](/assets/img/IMG_5075.JPG)
+<img src="/assets/img/IMG_5075.JPG" alt="Hotel Pool" style="max-width: 600px; width: 100%; height: auto;">
 
 The simple pleasures
 were very real: swimming, fresh seafood, and a hotel that felt a bit luxurious after months of
@@ -50,7 +50,7 @@ studying. Those moments felt effortless and joyful, like a reward for keeping at
 
 何気ない楽しさは確かにそこにあって、8 か月間の勉強のご褒美のように感じられました。泳いだり、新鮮な魚を食べたり、ちょっと贅沢なホテルでゆっくりする時間は、何も考えずに幸せでした。
 
-![Local Seafood](/assets/img/IMG_5140.JPG)
+<img src="/assets/img/IMG_5140.JPG" alt="Local Seafood" style="max-width: 600px; width: 100%; height: auto;">
 
 ---
 
