@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import matter from 'gray-matter'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -16,6 +17,8 @@ interface PostData {
   date?: string
   categories?: string[]
   tags?: string[]
+  description?: string
+  excerpt?: string
 }
 
 export default function PostPage({ params }: PostPageProps) {
@@ -78,6 +81,54 @@ export default function PostPage({ params }: PostPageProps) {
       <Footer />
     </div>
   )
+}
+
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
+  const { slug } = params
+  const postsDirectory = join(process.cwd(), 'src/_posts')
+  const fullPath = join(postsDirectory, `${slug}.md`)
+
+  if (!existsSync(fullPath)) {
+    return {
+      title: 'Post Not Found',
+    }
+  }
+
+  const fileContents = readFileSync(fullPath, 'utf8')
+  const { data, content } = matter(fileContents)
+  const frontmatter = data as PostData
+  
+  const description = frontmatter.description || frontmatter.excerpt || content.slice(0, 160) + '...'
+  const title = frontmatter.title
+  const publishedTime = frontmatter.date
+  const keywords = [
+    ...(frontmatter.categories || []),
+    ...(frontmatter.tags || []),
+    'blog', 'tech', 'programming'
+  ]
+
+  return {
+    title,
+    description,
+    keywords,
+    authors: [{ name: 'Takaaki Taniguchi' }],
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      publishedTime,
+      authors: ['Takaaki Taniguchi'],
+      url: `https://tanigu12.github.io/posts/${slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/posts/${slug}`,
+    },
+  }
 }
 
 export async function generateStaticParams() {
