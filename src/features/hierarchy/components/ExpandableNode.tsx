@@ -2,7 +2,7 @@
 
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { useRouter } from 'next/navigation';
-import { KnowledgeNode } from '../types';
+import { KnowledgeNode } from '@/features/node/types';
 
 interface ExpandableNodeProps extends NodeProps {
   data: KnowledgeNode['data'];

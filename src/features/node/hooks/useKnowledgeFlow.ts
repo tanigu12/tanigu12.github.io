@@ -3,7 +3,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useNodesState, useEdgesState, addEdge } from '@xyflow/react';
 import { KnowledgeNode, KnowledgeEdge } from '../types';
-import { toggleNodeExpansion, createHierarchicalEdges } from '../utils/hierarchyUtils';
+import { toggleNodeExpansion, createHierarchicalEdges } from '@/features/hierarchy/utils/hierarchyUtils';
 
 export function useKnowledgeFlow(
   initialNodes: KnowledgeNode[], 

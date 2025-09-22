@@ -1,5 +1,5 @@
-import { KnowledgeNode, KnowledgeEdge } from "../types";
-import { hierarchyConfig } from "../data/hierarchy";
+import { KnowledgeNode, KnowledgeEdge } from "@/features/node/types";
+import { hierarchyConfig } from "../types";
 
 const POSITIONS = {
   ROOT: {
@@ -22,58 +22,25 @@ export function createHierarchicalNodes(
   const nodeMap = new Map<string, KnowledgeNode>();
 
   // Create root category nodes
-  hierarchyConfig.rootCategories.forEach((category, index) => {
-    const rootNode: KnowledgeNode = {
-      id: `root-${category.toLowerCase()}`,
-      position: {
-        x: POSITIONS.ROOT.base.x + index * POSITIONS.ROOT.offset.x,
-        y: POSITIONS.ROOT.base.y + index * POSITIONS.ROOT.offset.y,
-      },
-      data: {
-        label: category,
-        category: "Root",
-        isExpanded: true,
-        hasChildren: true,
-        level: 0,
-      },
-      type: "expandableNode",
-    };
-    hierarchicalNodes.push(rootNode);
-    nodeMap.set(rootNode.id, rootNode);
-  });
-
-  // Create subcategory nodes
-  Object.entries(hierarchyConfig.categoryHierarchy).forEach(
-    ([parentCategory, subCategories]) => {
-      const parentId = `root-${parentCategory.toLowerCase()}`;
-      const parentNode = nodeMap.get(parentId);
-
-      if (parentNode) {
-        subCategories.forEach((subCategory, index) => {
-          const subNode: KnowledgeNode = {
-            id: `category-${subCategory.toLowerCase()}`,
-            position: {
-              x: parentNode.position.x + POSITIONS.CATEGORY.offset.x,
-              y:
-                parentNode.position.y +
-                (index - subCategories.length / 2) *
-                  POSITIONS.CATEGORY.offset.y,
-            },
-            data: {
-              label: subCategory,
-              category: "Category",
-              isExpanded: false,
-              hasChildren: true,
-              parentId: parentId,
-              level: 1,
-            },
-            type: "expandableNode",
-            hidden: !parentNode.data.isExpanded,
-          };
-          hierarchicalNodes.push(subNode);
-          nodeMap.set(subNode.id, subNode);
-        });
-      }
+  Object.entries(hierarchyConfig.rootCategories).forEach(
+    ([category, node], index) => {
+      const rootNode: KnowledgeNode = {
+        id: `root-${category.toLowerCase()}`,
+        position: {
+          x: POSITIONS.ROOT.base.x + index * POSITIONS.ROOT.offset.x,
+          y: POSITIONS.ROOT.base.y + index * POSITIONS.ROOT.offset.y,
+        },
+        data: {
+          label: category,
+          category: "Root",
+          isExpanded: true,
+          hasChildren: true,
+          level: 0,
+        },
+        type: "expandableNode",
+      };
+      hierarchicalNodes.push(rootNode);
+      nodeMap.set(rootNode.id, rootNode);
     }
   );
 
@@ -90,18 +57,22 @@ export function createHierarchicalNodes(
     }
 
     // Try to match by tags
-    if (!parentNode && node.data.tags) {
-      for (const [category, tags] of Object.entries(
-        hierarchyConfig.tagHierarchy
-      )) {
-        const hasMatchingTag = node.data.tags.some((tag) =>
-          tags.includes(tag.toLowerCase())
-        );
-        if (hasMatchingTag) {
-          const categoryId = `category-${category.toLowerCase()}`;
-          parentNode = nodeMap.get(categoryId) || null;
-          assignedCategory = categoryId;
-          break;
+    if (!parentNode && node.data.tags && node.data.category) {
+      const categoryData = hierarchyConfig.rootCategories[node.data.category];
+      if (categoryData && typeof categoryData.children === 'object' && !Array.isArray(categoryData.children)) {
+        for (const [category, tagNode] of Object.entries(categoryData.children)) {
+          const tagChildren = tagNode.children;
+          if (Array.isArray(tagChildren)) {
+            const hasMatchingTag = node.data.tags.some((tag) =>
+              tagChildren.includes(tag.toLowerCase())
+            );
+            if (hasMatchingTag) {
+              const categoryId = `category-${category.toLowerCase()}`;
+              parentNode = nodeMap.get(categoryId) || null;
+              assignedCategory = categoryId;
+              break;
+            }
+          }
         }
       }
     }

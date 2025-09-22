@@ -5,7 +5,7 @@ import { KnowledgeFlowChart } from '@/features/node/components/KnowledgeFlowChar
 import { useKnowledgeFlow } from '@/features/node/hooks/useKnowledgeFlow';
 import { defaultNodes, defaultEdges } from '@/features/node/utils/nodeData';
 import { getPostsFromDirectory } from '@/features/node/utils/postNodes';
-import { createHierarchicalNodes, createHierarchicalEdges } from '@/features/node/utils/hierarchyUtils';
+import { createHierarchicalNodes, createHierarchicalEdges } from '@/features/hierarchy/utils/hierarchyUtils';
 import Header from './components/Header';
 import Footer from './components/Footer';
 

@@ -3,7 +3,7 @@
 import { useEffect, useCallback } from 'react';
 import { ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { ExpandableNode, setGlobalToggleExpand } from './ExpandableNode';
+import { ExpandableNode, setGlobalToggleExpand } from '@/features/hierarchy/components/ExpandableNode';
 import { NodeFeatureProps } from '../types';
 
 const nodeTypes = {
