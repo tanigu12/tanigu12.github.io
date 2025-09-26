@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useKnowledgeFlow } from "@/features/node/hooks/useKnowledgeFlow";
-import { getBaseHierarchyDataWithPosts } from "@/features/node/utils/postNodes";
 import {
   createHierarchicalNodes,
   createHierarchicalEdges,

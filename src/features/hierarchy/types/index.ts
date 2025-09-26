@@ -1,4 +1,5 @@
-export interface PostData {
+
+interface PostData {
   id: string;
   label: string;
   description: string;
@@ -13,5 +14,3 @@ export interface HierarchyNode {
   children?: HierarchyNode[];
   postData?: PostData;
 }
-
-export type HierarchyConfig = HierarchyNode[];

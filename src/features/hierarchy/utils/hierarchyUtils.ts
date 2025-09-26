@@ -7,7 +7,7 @@ import {
   createPostNode,
 } from "@/features/node/utils/nodeCreators";
 
-export function createHierarchicalNodesFromData(): KnowledgeNode[] {
+function createHierarchicalNodesFromData(): KnowledgeNode[] {
   try {
     const baseHierarchyDataWithPosts =
       require("../data/baseHierarchyDataWithPosts.json") as HierarchyNode[];

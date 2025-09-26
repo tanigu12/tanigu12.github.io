@@ -1,15 +1,18 @@
 export const POSITIONS = {
   ROOT: {
-    base: { x: 400, y: 0 },
-    offset: { x: 600, y: 0 },
+    base: { x: 0, y: 0 },
+    offset: { x: 0, y: 200 },
   },
   CATEGORY: {
-    offset: { x: 250, y: 150 },
+    base: { x: 250, y: 0 },
+    offset: { x: 0, y: 50 },
   },
   TAG: {
-    offset: { x: 200, y: 80 },
+    base: { x: 250, y: 0 },
+    offset: { x: 0, y: 50 },
   },
   POST: {
-    offset: { x: 0, y: 120 },
+    base: { x: 250, y: 0 },
+    offset: { x: 0, y: 100 },
   },
 };
