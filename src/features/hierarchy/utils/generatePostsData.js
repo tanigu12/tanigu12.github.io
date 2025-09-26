@@ -15,29 +15,20 @@ function generatePostsData() {
 
     filenames
       .filter((name) => name.endsWith(".md"))
-      .forEach((filename, index) => {
+      .forEach((filename) => {
         const fullPath = join(postsDirectory, filename);
         const fileContents = readFileSync(fullPath, "utf8");
         const { data } = matter(fileContents);
 
         const slug = filename.replace(/\.md$/, "");
         const postUrl = `/posts/${slug}`;
-
-        // Create a unique ID and position for each post
         const nodeId = `post-${slug}`;
 
-        // Calculate position in a circle layout
-        const angle = (index * 2 * Math.PI) / filenames.length;
-        const radius = 300;
-        const centerX = 400;
-        const centerY = 400;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-
         posts.push({
-          id: nodeId,
-          position: { x, y },
-          data: {
+          name: data.title || filename,
+          type: "post",
+          postData: {
+            id: nodeId,
             label: data.title || filename,
             description: `Blog post published ${
               data.date
@@ -46,10 +37,8 @@ function generatePostsData() {
             }`,
             category: "Blog Post",
             url: postUrl,
-            date: data.date,
             tags: data.tags || [],
           },
-          type: "default",
         });
       });
 
@@ -60,51 +49,78 @@ function generatePostsData() {
   }
 }
 
-function generatePostEdges(postNodes) {
-  const edges = [];
-
-  // Create edges between posts that share tags
-  for (let i = 0; i < postNodes.length; i++) {
-    for (let j = i + 1; j < postNodes.length; j++) {
-      const node1 = postNodes[i];
-      const node2 = postNodes[j];
-
-      const tags1 = node1.data.tags || [];
-      const tags2 = node2.data.tags || [];
-
-      // Check if posts share any tags
-      const sharedTags = tags1.filter((tag) => tags2.includes(tag));
-
-      if (sharedTags.length > 0) {
-        edges.push({
-          id: `edge-${node1.id}-${node2.id}`,
-          source: node1.id,
-          target: node2.id,
-          data: {
-            relationship: `shared tags: ${sharedTags.join(", ")}`,
-          },
-          type: "default",
-          style: { stroke: "#888" },
-        });
-      }
+function generateHierarchyWithPosts() {
+  const posts = generatePostsData();
+  
+  // Collect all unique tags from posts
+  const allTags = new Set();
+  posts.forEach(post => {
+    if (post.postData.tags) {
+      post.postData.tags.forEach(tag => allTags.add(tag.toLowerCase()));
     }
-  }
+  });
 
-  return edges;
+  // Create base hierarchy structure
+  const hierarchy = [
+    {
+      name: "Personal",
+      type: "root",
+      children: [
+        {
+          name: "Blog Post",
+          type: "category",
+          children: [
+            // Add tag nodes for tags found in posts
+            ...Array.from(allTags).map(tag => ({
+              name: tag,
+              type: "tag",
+            })),
+          ],
+        },
+        // Add all blog posts under Personal root
+        ...posts,
+      ],
+    },
+    {
+      name: "Technology",
+      type: "root",
+      children: [
+        {
+          name: "Frontend",
+          type: "category",
+          children: [
+            {
+              name: "react",
+              type: "tag",
+            },
+            {
+              name: "typescript",
+              type: "tag",
+            },
+            {
+              name: "javascript",
+              type: "tag",
+            },
+            {
+              name: "css",
+              type: "tag",
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
+  return hierarchy;
 }
 
-// Generate and write the data to a JSON file
+// Generate and write the hierarchy data to a JSON file
+const hierarchyData = generateHierarchyWithPosts();
 const posts = generatePostsData();
-const edges = generatePostEdges(posts);
-
-const data = {
-  nodes: posts,
-  edges: edges,
-};
 
 writeFileSync(
   join(process.cwd(), "src/features/hierarchy/data/postsData.json"),
-  JSON.stringify(data, null, 2)
+  JSON.stringify(hierarchyData, null, 2)
 );
 
-console.log(`Generated ${posts.length} post nodes and ${edges.length} edges`);
+console.log(`Generated ${posts.length} post nodes and 0 edges`);

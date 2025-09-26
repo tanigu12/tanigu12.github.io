@@ -1,0 +1,66 @@
+export const hierarchyConfig = [
+  {
+    name: "Personal",
+    type: "root",
+    children: [
+      {
+        name: "Blog Post",
+        type: "category",
+        children: [
+          {
+            name: "introduction",
+            type: "tag",
+          },
+          {
+            name: "personal",
+            type: "tag",
+          },
+          {
+            name: "reflection",
+            type: "tag",
+          },
+        ],
+      },
+      {
+        name: "Welcome to My Blog",
+        type: "post",
+        postData: {
+          id: "post-2020-08-17-welcome-to-my-blog",
+          label: "Welcome to My Blog",
+          description: "Blog post published date unknown",
+          category: "Blog Post",
+          url: "/posts/2020-08-17-welcome-to-my-blog",
+          tags: ["introduction"],
+        },
+      },
+    ],
+  },
+  {
+    name: "Technology",
+    type: "root",
+    children: [
+      {
+        name: "Frontend",
+        type: "category",
+        children: [
+          {
+            name: "react",
+            type: "tag",
+          },
+          {
+            name: "typescript",
+            type: "tag",
+          },
+          {
+            name: "javascript",
+            type: "tag",
+          },
+          {
+            name: "css",
+            type: "tag",
+          },
+        ],
+      },
+    ],
+  },
+];

@@ -1,0 +1,103 @@
+[
+  {
+    "name": "Personal",
+    "type": "root",
+    "children": [
+      {
+        "name": "Blog Post",
+        "type": "category",
+        "children": [
+          {
+            "name": "introduction",
+            "type": "tag"
+          },
+          {
+            "name": "english",
+            "type": "tag"
+          },
+          {
+            "name": "learning",
+            "type": "tag"
+          },
+          {
+            "name": "travel",
+            "type": "tag"
+          },
+          {
+            "name": "cebu",
+            "type": "tag"
+          },
+          {
+            "name": "development",
+            "type": "tag"
+          },
+          {
+            "name": "growth",
+            "type": "tag"
+          }
+        ]
+      },
+      {
+        "name": "Welcome to My Blog",
+        "type": "post",
+        "postData": {
+          "id": "post-2020-08-17-welcome-to-my-blog",
+          "label": "Welcome to My Blog",
+          "description": "Blog post published date unknown",
+          "category": "Blog Post",
+          "url": "/posts/2020-08-17-welcome-to-my-blog",
+          "tags": [
+            "introduction"
+          ]
+        }
+      },
+      {
+        "name": "**A Holiday That Turned into an English Test**",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-08-22-a-holiday-that-turned-into-an-english-test",
+          "label": "**A Holiday That Turned into an English Test**",
+          "description": "Blog post published 8/22/2025",
+          "category": "Blog Post",
+          "url": "/posts/2025-08-22-a-holiday-that-turned-into-an-english-test",
+          "tags": [
+            "english",
+            "learning",
+            "travel",
+            "cebu",
+            "development",
+            "growth"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Technology",
+    "type": "root",
+    "children": [
+      {
+        "name": "Frontend",
+        "type": "category",
+        "children": [
+          {
+            "name": "react",
+            "type": "tag"
+          },
+          {
+            "name": "typescript",
+            "type": "tag"
+          },
+          {
+            "name": "javascript",
+            "type": "tag"
+          },
+          {
+            "name": "css",
+            "type": "tag"
+          }
+        ]
+      }
+    ]
+  }
+]
