@@ -29,36 +29,56 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
     // Determine node ID and position based on type
     switch (hierarchyNode.type) {
       case "root":
-        nodeId = `root-${hierarchyNode.name.toLowerCase().replace(/\s+/g, "-")}`;
-        const rootIndex = hierarchyData.findIndex(n => n.name === hierarchyNode.name);
+        nodeId = `root-${hierarchyNode.name
+          .toLowerCase()
+          .replace(/\s+/g, "-")}`;
+        const rootIndex = hierarchyData.findIndex(
+          (n) => n.name === hierarchyNode.name
+        );
         position = {
           x: POSITIONS.ROOT.base.x + rootIndex * POSITIONS.ROOT.offset.x,
           y: POSITIONS.ROOT.base.y + rootIndex * POSITIONS.ROOT.offset.y,
         };
-        hasChildren = !!(hierarchyNode.children && hierarchyNode.children.length > 0);
+        hasChildren = !!(
+          hierarchyNode.children && hierarchyNode.children.length > 0
+        );
         break;
 
       case "category":
-        nodeId = `category-${hierarchyNode.name.toLowerCase().replace(/\s+/g, "-")}`;
+        nodeId = `category-${hierarchyNode.name
+          .toLowerCase()
+          .replace(/\s+/g, "-")}`;
         position = {
           x: parentPosition!.x,
           y: parentPosition!.y + POSITIONS.CATEGORY.offset.y,
         };
-        hasChildren = !!(hierarchyNode.children && hierarchyNode.children.length > 0);
+        hasChildren = !!(
+          hierarchyNode.children && hierarchyNode.children.length > 0
+        );
         break;
 
       case "tag":
         nodeId = `tag-${hierarchyNode.name.toLowerCase().replace(/\s+/g, "-")}`;
-        const tagIndex = getNodeIndexInSiblings(hierarchyNode, hierarchyData, parentId!);
+        const tagIndex = getNodeIndexInSiblings(
+          hierarchyNode,
+          hierarchyData,
+          parentId!
+        );
         position = {
           x: parentPosition!.x + (tagIndex % 4) * POSITIONS.TAG.offset.x,
-          y: parentPosition!.y + Math.floor(tagIndex / 4) * POSITIONS.TAG.offset.y,
+          y:
+            parentPosition!.y +
+            Math.floor(tagIndex / 4) * POSITIONS.TAG.offset.y,
         };
         break;
 
       case "post":
         nodeId = hierarchyNode.postData!.id;
-        const postIndex = getNodeIndexInSiblings(hierarchyNode, hierarchyData, parentId!);
+        const postIndex = getNodeIndexInSiblings(
+          hierarchyNode,
+          hierarchyData,
+          parentId!
+        );
         position = {
           x: parentPosition!.x,
           y: parentPosition!.y + POSITIONS.POST.offset.y * (postIndex + 1),
@@ -75,9 +95,14 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
       position,
       data: {
         label: hierarchyNode.name,
-        category: hierarchyNode.type === "root" ? "Root" : 
-                 hierarchyNode.type === "category" ? hierarchyNode.name :
-                 hierarchyNode.type === "post" ? hierarchyNode.postData!.category : "Tag",
+        category:
+          hierarchyNode.type === "root"
+            ? "Root"
+            : hierarchyNode.type === "category"
+            ? hierarchyNode.name
+            : hierarchyNode.type === "post"
+            ? hierarchyNode.postData!.category
+            : "Tag",
         level,
         parentId,
         hasChildren,
@@ -89,7 +114,10 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
         }),
       },
       type: "expandableNode",
-      hidden: level > 1 || (level === 1 && Boolean(parentId && !nodeMap.get(parentId)?.data.isExpanded)),
+      hidden:
+        level > 1 ||
+        (level === 1 &&
+          Boolean(parentId && !nodeMap.get(parentId)?.data.isExpanded)),
     };
 
     nodes.push(reactFlowNode);
@@ -97,14 +125,14 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
 
     // Process children recursively
     if (hierarchyNode.children) {
-      hierarchyNode.children.forEach(child => {
+      hierarchyNode.children.forEach((child) => {
         processNode(child, level + 1, nodeId, position);
       });
     }
   }
 
   // Process all root nodes
-  hierarchyData.forEach(rootNode => {
+  hierarchyData.forEach((rootNode) => {
     processNode(rootNode, 0);
   });
 
@@ -112,12 +140,15 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
 }
 
 function getNodeIndexInSiblings(
-  node: HierarchyNode, 
-  hierarchyData: HierarchyNode[], 
+  node: HierarchyNode,
+  hierarchyData: HierarchyNode[],
   parentId: string
 ): number {
   // Find parent and get index of this node among its siblings
-  function findParentAndIndex(nodes: HierarchyNode[], targetNode: HierarchyNode): number {
+  function findParentAndIndex(
+    nodes: HierarchyNode[],
+    targetNode: HierarchyNode
+  ): number {
     for (const rootNode of nodes) {
       const result = findInChildren(rootNode, targetNode);
       if (result !== -1) return result;
@@ -125,10 +156,13 @@ function getNodeIndexInSiblings(
     return 0;
   }
 
-  function findInChildren(parent: HierarchyNode, target: HierarchyNode): number {
+  function findInChildren(
+    parent: HierarchyNode,
+    target: HierarchyNode
+  ): number {
     if (!parent.children) return -1;
-    
-    const index = parent.children.findIndex(child => child === target);
+
+    const index = parent.children.findIndex((child) => child === target);
     if (index !== -1) return index;
 
     for (const child of parent.children) {

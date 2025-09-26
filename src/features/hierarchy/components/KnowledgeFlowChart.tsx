@@ -1,10 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect, useCallback } from 'react';
-import { ReactFlow } from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import { ExpandableNode, setGlobalToggleExpand } from '@/features/node/components/ExpandableNode';
-import { NodeFeatureProps } from '../types';
+import { useEffect, useCallback } from "react";
+import { ReactFlow } from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import {
+  ExpandableNode,
+  setGlobalToggleExpand,
+} from "@/features/node/components/ExpandableNode";
+import { NodeFeatureProps } from "../../node/types";
 
 const nodeTypes = {
   expandableNode: ExpandableNode,
@@ -24,21 +27,24 @@ export function KnowledgeFlowChart({
   onConnect,
   onToggleExpand,
   selectedNodeId,
-  selectNode
+  selectNode,
 }: KnowledgeFlowChartProps) {
   // Set the global toggle function
   useEffect(() => {
     setGlobalToggleExpand(onToggleExpand);
   }, [onToggleExpand]);
 
-  const onNodeClick = useCallback((event: React.MouseEvent, node: any) => {
-    if (selectNode) {
-      selectNode(node.id);
-    }
-  }, [selectNode]);
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: any) => {
+      if (selectNode) {
+        selectNode(node.id);
+      }
+    },
+    [selectNode]
+  );
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }} tabIndex={0}>
+    <div style={{ width: "100vw", height: "100vh" }} tabIndex={0}>
       <ReactFlow
         nodes={nodes}
         edges={edges}

@@ -5,21 +5,7 @@
     "children": [
       {
         "name": "Blog Post",
-        "type": "category",
-        "children": [
-          {
-            "name": "introduction",
-            "type": "tag"
-          },
-          {
-            "name": "personal",
-            "type": "tag"
-          },
-          {
-            "name": "reflection",
-            "type": "tag"
-          }
-        ]
+        "type": "category"
       },
       {
         "name": "Welcome to My Blog",

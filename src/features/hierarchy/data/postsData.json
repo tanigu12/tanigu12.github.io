@@ -5,45 +5,7 @@
     "children": [
       {
         "name": "Blog Post",
-        "type": "category",
-        "children": [
-          {
-            "name": "introduction",
-            "type": "tag"
-          },
-          {
-            "name": "personal",
-            "type": "tag"
-          },
-          {
-            "name": "reflection",
-            "type": "tag"
-          },
-          {
-            "name": "english",
-            "type": "tag"
-          },
-          {
-            "name": "learning",
-            "type": "tag"
-          },
-          {
-            "name": "travel",
-            "type": "tag"
-          },
-          {
-            "name": "cebu",
-            "type": "tag"
-          },
-          {
-            "name": "development",
-            "type": "tag"
-          },
-          {
-            "name": "growth",
-            "type": "tag"
-          }
-        ]
+        "type": "category"
       },
       {
         "name": "Welcome to My Blog",

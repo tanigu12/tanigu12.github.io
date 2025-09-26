@@ -1,0 +1,30 @@
+"use client";
+
+import { KnowledgeFlowChart } from "@/features/hierarchy/components/KnowledgeFlowChart";
+import { useKnowledgeFlowChart } from "@/features/hierarchy/hooks/useKnowledgeFlowChart";
+
+export default function Client() {
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onToggleExpand,
+    selectedNodeId,
+    selectNode,
+  } = useKnowledgeFlowChart();
+
+  return (
+    <KnowledgeFlowChart
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      onToggleExpand={onToggleExpand}
+      selectedNodeId={selectedNodeId}
+      selectNode={selectNode}
+    />
+  );
+}
