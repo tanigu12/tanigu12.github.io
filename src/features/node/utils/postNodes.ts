@@ -1,22 +1,12 @@
-import { KnowledgeNode, KnowledgeEdge } from '../types';
+import { KnowledgeNode } from "../types";
 
-export function getPostsFromDirectory(): KnowledgeNode[] {
+export function getBaseHierarchyDataWithPosts(): KnowledgeNode[] {
   try {
     // Use dynamic import to avoid TypeScript issues with JSON at compile time
-    const postsData = require('../data/postsData.json');
-    return postsData.nodes as KnowledgeNode[];
+    const baseHierarchyDataWithPosts = require("../data/baseHierarchyDataWithPosts.json");
+    return baseHierarchyDataWithPosts.nodes as KnowledgeNode[];
   } catch (error) {
-    console.warn('Could not load posts data:', error);
-    return [];
-  }
-}
-
-export function generatePostEdges(postNodes: KnowledgeNode[]): KnowledgeEdge[] {
-  try {
-    const postsData = require('../data/postsData.json');
-    return postsData.edges as KnowledgeEdge[];
-  } catch (error) {
-    console.warn('Could not load posts edges:', error);
+    console.warn("Could not load posts data:", error);
     return [];
   }
 }

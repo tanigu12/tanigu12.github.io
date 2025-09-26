@@ -1,4 +1,4 @@
-import { KnowledgeNode, KnowledgeEdge } from '../types';
+import { KnowledgeNode, KnowledgeEdge } from "../types";
 
 export const createKnowledgeNode = (
   id: string,
@@ -26,8 +26,8 @@ export const createKnowledgeNode = (
     isExpanded,
     hasChildren,
     parentId,
-    level
-  }
+    level,
+  },
 });
 
 export const createKnowledgeEdge = (
@@ -40,15 +40,6 @@ export const createKnowledgeEdge = (
   source,
   target,
   data: {
-    relationship
-  }
+    relationship,
+  },
 });
-
-export const defaultNodes: KnowledgeNode[] = [
-  createKnowledgeNode('1', 'React', { x: 100, y: 100 }, 'JavaScript library for building user interfaces', 'Frontend'),
-  createKnowledgeNode('2', 'TypeScript', { x: 300, y: 100 }, 'Typed superset of JavaScript', 'Language'),
-];
-
-export const defaultEdges: KnowledgeEdge[] = [
-  createKnowledgeEdge('e1-2', '1', '2', 'uses'),
-];

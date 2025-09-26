@@ -38,7 +38,7 @@ function loadBaseHierarchyConfig(): HierarchyNode[] {
   }
 }
 
-function generatePostsData(): HierarchyNode[] {
+function generateBaseHierarchyDataWithPosts(): HierarchyNode[] {
   const postsDirectory = join(process.cwd(), "src/_posts");
 
   if (!existsSync(postsDirectory)) {
@@ -92,7 +92,7 @@ function generatePostsData(): HierarchyNode[] {
 function generateHierarchyWithPosts(): HierarchyNode[] {
   // Load base hierarchy configuration
   const baseHierarchy = loadBaseHierarchyConfig();
-  const posts = generatePostsData();
+  const posts = generateBaseHierarchyDataWithPosts();
 
   // Collect all unique tags from posts
   const allTags = new Set<string>();
@@ -136,10 +136,13 @@ function generateHierarchyWithPosts(): HierarchyNode[] {
 
 // Generate and write the hierarchy data to a JSON file
 const hierarchyData = generateHierarchyWithPosts();
-const posts = generatePostsData();
+const posts = generateBaseHierarchyDataWithPosts();
 
 writeFileSync(
-  join(process.cwd(), "src/features/hierarchy/data/postsData.json"),
+  join(
+    process.cwd(),
+    "src/features/hierarchy/data/baseHierarchyDataWithPosts.json"
+  ),
   JSON.stringify(hierarchyData, null, 2)
 );
 
