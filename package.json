@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node src/features/hierarchy/utils/generatePostsData.js && next dev --turbopack",
-    "build": "node src/features/hierarchy/utils/generatePostsData.js && next build --turbopack",
+    "dev": "npx ts-node --esm src/features/hierarchy/utils/generatePostsData.ts && next dev --turbopack",
+    "build": "npx ts-node --esm src/features/hierarchy/utils/generatePostsData.ts && next build --turbopack",
     "start": "next start",
     "preview": "npx serve out",
     "lint": "eslint src --ext .ts,.tsx --fix",
@@ -40,6 +40,7 @@
     "jsdom": "^27.0.0",
     "knip": "^5.63.1",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5",
     "vitest": "^3.2.4"
   }

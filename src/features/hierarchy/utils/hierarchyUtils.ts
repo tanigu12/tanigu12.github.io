@@ -1,134 +1,151 @@
 import { KnowledgeNode, KnowledgeEdge } from "@/features/node/types";
-import { hierarchyConfig } from "../data/baseConfig";
+import { HierarchyNode } from "../types";
+import { POSITIONS } from "../config/positions";
 
-const POSITIONS = {
-  ROOT: {
-    base: { x: 400, y: 0 },
-    offset: { x: 0, y: 400 },
-  },
-  CATEGORY: {
-    offset: { x: 250, y: 100 },
-  },
-  NODE: {
-    base: { x: 250, y: 100 },
-    offset: { x: 250, y: 100 },
-  },
-};
+export function createHierarchicalNodesFromData(): KnowledgeNode[] {
+  try {
+    const postsData = require("../data/postsData.json") as HierarchyNode[];
+    return processHierarchyData(postsData);
+  } catch (error) {
+    console.warn("Could not load posts data, using empty hierarchy:", error);
+    return [];
+  }
+}
 
-export function createHierarchicalNodes(
-  flatNodes: KnowledgeNode[]
-): KnowledgeNode[] {
-  const hierarchicalNodes: KnowledgeNode[] = [];
+function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
+  const nodes: KnowledgeNode[] = [];
   const nodeMap = new Map<string, KnowledgeNode>();
 
-  // Create root category nodes
-  hierarchyConfig.forEach((rootCategory, index) => {
-    const rootNode: KnowledgeNode = {
-      id: `root-${rootCategory.name.toLowerCase()}`,
-      position: {
-        x: POSITIONS.ROOT.base.x + index * POSITIONS.ROOT.offset.x,
-        y: POSITIONS.ROOT.base.y + index * POSITIONS.ROOT.offset.y,
-      },
+  function processNode(
+    hierarchyNode: HierarchyNode,
+    level: number,
+    parentId?: string,
+    parentPosition?: { x: number; y: number }
+  ): void {
+    let nodeId: string;
+    let position: { x: number; y: number };
+    let hasChildren = false;
+
+    // Determine node ID and position based on type
+    switch (hierarchyNode.type) {
+      case "root":
+        nodeId = `root-${hierarchyNode.name.toLowerCase().replace(/\s+/g, "-")}`;
+        const rootIndex = hierarchyData.findIndex(n => n.name === hierarchyNode.name);
+        position = {
+          x: POSITIONS.ROOT.base.x + rootIndex * POSITIONS.ROOT.offset.x,
+          y: POSITIONS.ROOT.base.y + rootIndex * POSITIONS.ROOT.offset.y,
+        };
+        hasChildren = !!(hierarchyNode.children && hierarchyNode.children.length > 0);
+        break;
+
+      case "category":
+        nodeId = `category-${hierarchyNode.name.toLowerCase().replace(/\s+/g, "-")}`;
+        position = {
+          x: parentPosition!.x,
+          y: parentPosition!.y + POSITIONS.CATEGORY.offset.y,
+        };
+        hasChildren = !!(hierarchyNode.children && hierarchyNode.children.length > 0);
+        break;
+
+      case "tag":
+        nodeId = `tag-${hierarchyNode.name.toLowerCase().replace(/\s+/g, "-")}`;
+        const tagIndex = getNodeIndexInSiblings(hierarchyNode, hierarchyData, parentId!);
+        position = {
+          x: parentPosition!.x + (tagIndex % 4) * POSITIONS.TAG.offset.x,
+          y: parentPosition!.y + Math.floor(tagIndex / 4) * POSITIONS.TAG.offset.y,
+        };
+        break;
+
+      case "post":
+        nodeId = hierarchyNode.postData!.id;
+        const postIndex = getNodeIndexInSiblings(hierarchyNode, hierarchyData, parentId!);
+        position = {
+          x: parentPosition!.x,
+          y: parentPosition!.y + POSITIONS.POST.offset.y * (postIndex + 1),
+        };
+        break;
+
+      default:
+        return;
+    }
+
+    // Create the React Flow node
+    const reactFlowNode: KnowledgeNode = {
+      id: nodeId,
+      position,
       data: {
-        label: rootCategory.name,
-        category: "Root",
-        isExpanded: true,
-        hasChildren: true,
-        level: 0,
+        label: hierarchyNode.name,
+        category: hierarchyNode.type === "root" ? "Root" : 
+                 hierarchyNode.type === "category" ? hierarchyNode.name :
+                 hierarchyNode.type === "post" ? hierarchyNode.postData!.category : "Tag",
+        level,
+        parentId,
+        hasChildren,
+        isExpanded: hierarchyNode.type === "root", // Only roots start expanded
+        ...(hierarchyNode.postData && {
+          description: hierarchyNode.postData.description,
+          url: hierarchyNode.postData.url,
+          tags: hierarchyNode.postData.tags,
+        }),
       },
       type: "expandableNode",
+      hidden: level > 1 || (level === 1 && Boolean(parentId && !nodeMap.get(parentId)?.data.isExpanded)),
     };
-    hierarchicalNodes.push(rootNode);
-    nodeMap.set(rootNode.id, rootNode);
+
+    nodes.push(reactFlowNode);
+    nodeMap.set(nodeId, reactFlowNode);
+
+    // Process children recursively
+    if (hierarchyNode.children) {
+      hierarchyNode.children.forEach(child => {
+        processNode(child, level + 1, nodeId, position);
+      });
+    }
+  }
+
+  // Process all root nodes
+  hierarchyData.forEach(rootNode => {
+    processNode(rootNode, 0);
   });
 
-  // Assign existing nodes to appropriate categories
-  flatNodes.forEach((node) => {
-    let assignedCategory: string | null = null;
-    let parentNode: KnowledgeNode | null = null;
+  return nodes;
+}
 
-    // Try to match by category
-    if (node.data.category) {
-      const categoryId = `category-${node.data.category.toLowerCase()}`;
-      parentNode = nodeMap.get(categoryId) || null;
-      assignedCategory = categoryId;
+function getNodeIndexInSiblings(
+  node: HierarchyNode, 
+  hierarchyData: HierarchyNode[], 
+  parentId: string
+): number {
+  // Find parent and get index of this node among its siblings
+  function findParentAndIndex(nodes: HierarchyNode[], targetNode: HierarchyNode): number {
+    for (const rootNode of nodes) {
+      const result = findInChildren(rootNode, targetNode);
+      if (result !== -1) return result;
     }
+    return 0;
+  }
 
-    // Try to match by tags
-    if (!parentNode && node.data.tags && node.data.category) {
-      // Find the root category that contains the node's category
-      const rootCategory = hierarchyConfig.find(root => 
-        root.children.some(child => child.name === node.data.category)
-      );
-      
-      if (rootCategory) {
-        // Find the category within the root
-        const categoryData = rootCategory.children.find(child => child.name === node.data.category);
-        
-        if (categoryData && categoryData.children && Array.isArray(categoryData.children)) {
-          for (const tagNode of categoryData.children) {
-            if (tagNode.type === "tag") {
-              const hasMatchingTag = node.data.tags.some((tag) =>
-                tag.toLowerCase() === tagNode.name.toLowerCase()
-              );
-              if (hasMatchingTag) {
-                const categoryId = `category-${categoryData.name.toLowerCase()}`;
-                parentNode = nodeMap.get(categoryId) || null;
-                assignedCategory = categoryId;
-                break;
-              }
-            }
-          }
-        }
-      }
+  function findInChildren(parent: HierarchyNode, target: HierarchyNode): number {
+    if (!parent.children) return -1;
+    
+    const index = parent.children.findIndex(child => child === target);
+    if (index !== -1) return index;
+
+    for (const child of parent.children) {
+      const result = findInChildren(child, target);
+      if (result !== -1) return result;
     }
+    return -1;
+  }
 
-    // If no specific category found, assign to appropriate root based on content
-    if (!parentNode) {
-      if (node.data.category === "Blog Post") {
-        assignedCategory = "root-personal";
-        parentNode = nodeMap.get("root-personal") || null;
-      } else if (
-        node.data.tags?.some((tag) =>
-          ["react", "typescript", "javascript"].includes(tag)
-        )
-      ) {
-        assignedCategory = "root-technology";
-        parentNode = nodeMap.get("root-technology") || null;
-      } else {
-        assignedCategory = "root-learning";
-        parentNode = nodeMap.get("root-learning") || null;
-      }
-    }
+  return findParentAndIndex(hierarchyData, node);
+}
 
-    if (parentNode && assignedCategory) {
-      const enhancedNode: KnowledgeNode = {
-        ...node,
-        data: {
-          ...node.data,
-          parentId: assignedCategory,
-          level: (parentNode.data.level || 0) + 1,
-          hasChildren: false,
-          isExpanded: false,
-        },
-        type: "expandableNode",
-        position: {
-          x: parentNode.position.x + POSITIONS.NODE.offset.x,
-          y: parentNode.position.y,
-        },
-        hidden:
-          !parentNode.data.isExpanded ||
-          (parentNode.data.parentId
-            ? !nodeMap.get(parentNode.data.parentId)?.data.isExpanded
-            : false),
-      };
-
-      hierarchicalNodes.push(enhancedNode);
-      nodeMap.set(enhancedNode.id, enhancedNode);
-    }
-  });
-
-  return hierarchicalNodes;
+export function createHierarchicalNodes(
+  _flatNodes: KnowledgeNode[] = []
+): KnowledgeNode[] {
+  // This function is kept for backward compatibility but now uses the JSON data
+  return createHierarchicalNodesFromData();
 }
 
 export function createHierarchicalEdges(
