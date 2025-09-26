@@ -1,4 +1,4 @@
-import { KnowledgeNode, KnowledgeEdge } from "@/features/node/types";
+import { KnowledgeNode, KnowledgeEdge, ExpansionState } from "@/features/node/types";
 import { HierarchyNode } from "../types";
 import {
   createRootNode,
@@ -191,48 +191,3 @@ export function createHierarchicalEdges(
   return edges;
 }
 
-export function toggleNodeExpansion(
-  nodes: KnowledgeNode[],
-  nodeId: string
-): KnowledgeNode[] {
-  return nodes.map((node) => {
-    if (node.id === nodeId) {
-      // Toggle the clicked node's expansion state
-      return {
-        ...node,
-        data: {
-          ...node.data,
-          isExpanded: !node.data.isExpanded,
-        },
-      };
-    } else if (node.data.parentId === nodeId) {
-      // Show/hide direct children
-      const parentNode = nodes.find((n) => n.id === nodeId);
-      const shouldBeVisible = parentNode?.data.isExpanded === false; // Will be true after toggle
-
-      return {
-        ...node,
-        hidden: !shouldBeVisible,
-      };
-    } else if (node.data.parentId) {
-      // Update visibility for nested children
-      const parentNode = nodes.find((n) => n.id === node.data.parentId);
-      const grandParentNode = parentNode?.data.parentId
-        ? nodes.find((n) => n.id === parentNode.data.parentId)
-        : null;
-
-      const isParentVisible =
-        !parentNode?.hidden && parentNode?.data.isExpanded;
-      const isGrandParentVisible =
-        !grandParentNode ||
-        (!grandParentNode.hidden && grandParentNode.data.isExpanded);
-
-      return {
-        ...node,
-        hidden: !(isParentVisible && isGrandParentVisible),
-      };
-    }
-
-    return node;
-  });
-}

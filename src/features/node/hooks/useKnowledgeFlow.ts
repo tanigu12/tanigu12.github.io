@@ -1,20 +1,36 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useNodesState, useEdgesState, addEdge } from "@xyflow/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { KnowledgeNode, KnowledgeEdge } from "../types";
 import {
-  toggleNodeExpansion,
-  createHierarchicalEdges,
-} from "@/features/hierarchy/utils/hierarchyUtils";
+  nodesAtom,
+  edgesAtom,
+  selectedNodeIdAtom,
+  nodesWithDynamicExpansionAtom,
+  visibleNodesAtom,
+  selectNodeAtom,
+  toggleNodeExpansionAtom,
+  initializeNodesAndEdgesAtom,
+} from "../store/atoms";
 
 export function useKnowledgeFlow(
   initialNodes: KnowledgeNode[],
   initialEdges: KnowledgeEdge[]
 ) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [, setNodes] = useAtom(nodesAtom);
+  const [edges, setEdges] = useAtom(edgesAtom);
+  const nodes = useAtomValue(nodesWithDynamicExpansionAtom); // Use nodes with dynamic expansion
+  const selectedNodeId = useAtomValue(selectedNodeIdAtom);
+  const visibleNodes = useAtomValue(visibleNodesAtom);
+  const selectNode = useSetAtom(selectNodeAtom);
+  const toggleExpansion = useSetAtom(toggleNodeExpansionAtom);
+  const initializeNodesAndEdges = useSetAtom(initializeNodesAndEdgesAtom);
+
+  // React Flow state for UI interactions
+  const [, , onNodesChange] = useNodesState(nodes);
+  const [, , onEdgesChange] = useEdgesState(edges);
 
   const onConnect = useCallback(
     (params: Parameters<typeof addEdge>[0]) =>
@@ -24,15 +40,9 @@ export function useKnowledgeFlow(
 
   const onToggleExpand = useCallback(
     (nodeId: string) => {
-      setNodes((currentNodes) => {
-        const updatedNodes = toggleNodeExpansion(currentNodes, nodeId);
-        // Regenerate edges based on updated node visibility
-        const updatedEdges = createHierarchicalEdges(updatedNodes);
-        setEdges(updatedEdges);
-        return updatedNodes;
-      });
+      toggleExpansion(nodeId);
     },
-    [setNodes, setEdges]
+    [toggleExpansion]
   );
 
   const findNearestNode = useCallback(
@@ -40,7 +50,6 @@ export function useKnowledgeFlow(
       const currentNode = nodes.find((n) => n.id === currentNodeId);
       if (!currentNode) return null;
 
-      const visibleNodes = nodes.filter((n) => n.hidden !== true);
       const currentPos = currentNode.position;
 
       let candidates: KnowledgeNode[] = [];
@@ -66,27 +75,14 @@ export function useKnowledgeFlow(
 
       return candidates.length > 0 ? candidates[0] : null;
     },
-    [nodes]
-  );
-
-  const selectNode = useCallback(
-    (nodeId: string | null) => {
-      setNodes((currentNodes) =>
-        currentNodes.map((node) => ({
-          ...node,
-          selected: node.id === nodeId,
-        }))
-      );
-      setSelectedNodeId(nodeId);
-    },
-    [setNodes]
+    [nodes, visibleNodes]
   );
 
   const handleArrowKey = useCallback(
     (direction: "up" | "down" | "left" | "right") => {
       if (!selectedNodeId) {
         // Select first visible node if none selected
-        const firstVisibleNode = nodes.find((n) => n.hidden !== true);
+        const firstVisibleNode = visibleNodes[0];
         if (firstVisibleNode) {
           selectNode(firstVisibleNode.id);
         }
@@ -98,7 +94,7 @@ export function useKnowledgeFlow(
         selectNode(nearestNode.id);
       }
     },
-    [selectedNodeId, nodes, findNearestNode, selectNode]
+    [selectedNodeId, visibleNodes, findNearestNode, selectNode]
   );
 
   const handleKeyDown = useCallback(
@@ -132,11 +128,10 @@ export function useKnowledgeFlow(
     [handleArrowKey, selectedNodeId, onToggleExpand]
   );
 
-  // Initialize edges on mount only
+  // Initialize nodes and edges on mount only
   useEffect(() => {
-    const updatedEdges = createHierarchicalEdges(initialNodes);
-    setEdges(updatedEdges);
-  }, [initialNodes, setEdges]);
+    initializeNodesAndEdges({ nodes: initialNodes, edges: initialEdges });
+  }, [initialNodes, initialEdges, initializeNodesAndEdges]);
 
   // Add keyboard event listeners
   useEffect(() => {

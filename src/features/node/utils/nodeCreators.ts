@@ -1,4 +1,4 @@
-import { KnowledgeNode } from "../types";
+import { KnowledgeNode, ExpansionState } from "../types";
 import { HierarchyNode } from "@/features/hierarchy/types";
 import { POSITIONS } from "@/features/hierarchy/config/positions";
 
@@ -21,7 +21,7 @@ export function createRootNode(
       category: "Root",
       level: 0,
       hasChildren,
-      isExpanded: true, // Root nodes start expanded
+      isExpanded: ExpansionState.Expanded, // Root nodes start expanded
     },
     type: "expandableNode",
     hidden: false,
@@ -56,7 +56,7 @@ export function createCategoryNode(
       level: 1,
       parentId,
       hasChildren,
-      isExpanded: false, // Categories start collapsed
+      isExpanded: ExpansionState.Collapsed, // Categories start collapsed
     },
     type: "expandableNode",
     hidden: false, // Initially hidden until parent is expanded
@@ -85,10 +85,10 @@ export function createTagNode(
       level: 2,
       parentId,
       hasChildren: false,
-      isExpanded: false,
+      isExpanded: ExpansionState.Collapsed,
     },
     type: "expandableNode",
-    hidden: true, // Initially hidden until parent is expanded
+    hidden: false,
   };
 }
 
@@ -120,13 +120,12 @@ export function createPostNode(
       level: 3,
       parentId,
       hasChildren: false,
-      isExpanded: false,
+      isExpanded: ExpansionState.Collapsed,
       description: hierarchyNode.postData!.description,
       url: hierarchyNode.postData!.url,
       tags: hierarchyNode.postData!.tags,
     },
     type: "expandableNode",
-    hidden: true, // Initially hidden until parent is expanded
+    hidden: false,
   };
 }
-

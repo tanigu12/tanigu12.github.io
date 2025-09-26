@@ -2,7 +2,7 @@
 
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { useRouter } from 'next/navigation';
-import { KnowledgeNode } from '@/features/node/types';
+import { KnowledgeNode, ExpansionState } from '@/features/node/types';
 
 interface ExpandableNodeProps extends NodeProps {
   data: KnowledgeNode['data'];
@@ -75,7 +75,9 @@ export function ExpandableNode({
               onClick={handleToggleClick}
               className="flex-shrink-0 w-4 h-4 mr-2 text-xs font-bold text-gray-600 hover:text-gray-800"
             >
-              {data.isExpanded ? '−' : '+'}
+              {data.isExpanded === ExpansionState.Expanded ? '−' : 
+               data.isExpanded === ExpansionState.Partial ? '±' : 
+               '+'}
             </button>
           )}
           

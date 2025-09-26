@@ -1,5 +1,11 @@
 import { Node, Edge } from '@xyflow/react';
 
+export enum ExpansionState {
+  Collapsed = 'collapsed',
+  Expanded = 'expanded',
+  Partial = 'partial'
+}
+
 export interface KnowledgeNode extends Node {
   data: {
     label: string;
@@ -8,7 +14,7 @@ export interface KnowledgeNode extends Node {
     url?: string;
     date?: string;
     tags?: string[];
-    isExpanded?: boolean;
+    isExpanded?: ExpansionState;
     hasChildren?: boolean;
     parentId?: string;
     level?: number;
