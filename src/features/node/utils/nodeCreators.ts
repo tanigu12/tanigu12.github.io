@@ -32,12 +32,13 @@ export function createCategoryNode(
   name: string,
   parentId: string,
   parentPosition: { x: number; y: number },
+  index: number,
   hasChildren: boolean = false
 ): KnowledgeNode {
   const nodeId = `category-${name.toLowerCase().replace(/\s+/g, "-")}`;
   const position = {
-    x: parentPosition.x,
-    y: parentPosition.y + POSITIONS.CATEGORY.offset.y,
+    x: parentPosition.x + POSITIONS.CATEGORY.offset.x + (index * 50), // Add spacing between categories
+    y: parentPosition.y + POSITIONS.CATEGORY.offset.y + (index * POSITIONS.CATEGORY.offset.y * 0.3),
   };
 
   return {
@@ -52,7 +53,7 @@ export function createCategoryNode(
       isExpanded: false, // Categories start collapsed
     },
     type: "expandableNode",
-    hidden: true, // Initially hidden until parent is expanded
+    hidden: false, // Initially hidden until parent is expanded
   };
 }
 
@@ -60,12 +61,14 @@ export function createTagNode(
   name: string,
   parentId: string,
   parentPosition: { x: number; y: number },
-  tagIndex: number
+  index: number
 ): KnowledgeNode {
   const nodeId = `tag-${name.toLowerCase().replace(/\s+/g, "-")}`;
+  // Improved grid layout with better spacing
+  const tagsPerRow = 3; // Reduced from 4 for better spacing
   const position = {
-    x: parentPosition.x + (tagIndex % 4) * POSITIONS.TAG.offset.x,
-    y: parentPosition.y + Math.floor(tagIndex / 4) * POSITIONS.TAG.offset.y,
+    x: parentPosition.x + (index % tagsPerRow) * POSITIONS.TAG.offset.x,
+    y: parentPosition.y + POSITIONS.TAG.offset.y + Math.floor(index / tagsPerRow) * POSITIONS.TAG.offset.y,
   };
 
   return {
@@ -88,12 +91,13 @@ export function createPostNode(
   hierarchyNode: HierarchyNode,
   parentId: string,
   parentPosition: { x: number; y: number },
-  postIndex: number
+  index: number
 ): KnowledgeNode {
   const nodeId = hierarchyNode.postData!.id;
+  // Better vertical spacing and slight horizontal offset for readability
   const position = {
-    x: parentPosition.x,
-    y: parentPosition.y + POSITIONS.POST.offset.y * (postIndex + 1),
+    x: parentPosition.x + POSITIONS.POST.offset.x + (index % 2) * 150, // Alternate horizontal positions
+    y: parentPosition.y + POSITIONS.POST.offset.y + (index * POSITIONS.POST.offset.y),
   };
 
   return {
@@ -124,4 +128,38 @@ export function findChildNodes(
   parentId: string
 ): KnowledgeNode[] {
   return nodes.filter((node) => node.data.parentId === parentId);
+}
+
+export function calculateOptimalPosition(
+  basePosition: { x: number; y: number },
+  nodeType: "category" | "tag" | "post",
+  index: number,
+  totalSiblings: number = 1
+): { x: number; y: number } {
+  switch (nodeType) {
+    case "category":
+      // Spread categories horizontally with some vertical offset
+      return {
+        x: basePosition.x + POSITIONS.CATEGORY.offset.x + (index * 200),
+        y: basePosition.y + POSITIONS.CATEGORY.offset.y + (index * 30),
+      };
+    
+    case "tag":
+      // Grid layout for tags (3 per row)
+      const tagsPerRow = 3;
+      return {
+        x: basePosition.x + (index % tagsPerRow) * POSITIONS.TAG.offset.x,
+        y: basePosition.y + POSITIONS.TAG.offset.y + Math.floor(index / tagsPerRow) * POSITIONS.TAG.offset.y,
+      };
+    
+    case "post":
+      // Zigzag pattern for posts
+      return {
+        x: basePosition.x + POSITIONS.POST.offset.x + (index % 2) * 200,
+        y: basePosition.y + POSITIONS.POST.offset.y + (index * POSITIONS.POST.offset.y),
+      };
+    
+    default:
+      return basePosition;
+  }
 }

@@ -4,7 +4,7 @@ export const POSITIONS = {
     offset: { x: 600, y: 0 },
   },
   CATEGORY: {
-    offset: { x: 0, y: 150 },
+    offset: { x: 250, y: 150 },
   },
   TAG: {
     offset: { x: 200, y: 80 },

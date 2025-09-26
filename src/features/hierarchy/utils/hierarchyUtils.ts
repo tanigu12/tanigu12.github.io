@@ -47,10 +47,16 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
         break;
 
       case "category":
+        const categoryIndex = getNodeIndexInSiblings(
+          hierarchyNode,
+          hierarchyData,
+          parentId!
+        );
         reactFlowNode = createCategoryNode(
           hierarchyNode.name,
           parentId!,
           parentPosition!,
+          categoryIndex,
           hasChildren
         );
         break;
