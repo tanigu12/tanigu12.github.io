@@ -21,6 +21,7 @@ interface HierarchyNode {
 interface PostFrontMatter {
   title?: string;
   date?: string;
+  categories?: string[];
   tags?: string[];
 }
 
@@ -70,7 +71,7 @@ function generateBaseHierarchyDataWithPosts(): HierarchyNode[] {
               ? new Date(data.date).toLocaleDateString()
               : "date unknown"
           }`,
-          category: "Blog Post",
+          category: data.categories?.[0] || "Blog Post",
           url: postUrl,
           tags: data.tags || [],
         };
@@ -108,11 +109,21 @@ function generateHierarchyWithPosts(): HierarchyNode[] {
   // Find the Personal root and add dynamic content
   const personalRoot = hierarchy.find((root) => root.name === "Personal");
   if (personalRoot && personalRoot.children) {
+    // const personalPosts = posts.filter(
+    //   (post) => post.postData?.category === "personal"
+    // );
+    // personalRoot.children.push(...personalPosts);
+
     // Find the Blog Post category and add dynamic tags
     const blogPostCategory = personalRoot.children.find(
       (child) => child.name === "Blog Post"
     );
     if (blogPostCategory && blogPostCategory.children) {
+      // const blogPosts = posts.filter(
+      //   (post) => post.postData?.category === "blog-posts"
+      // );
+      // blogPostCategory.children.push(...blogPosts);
+
       // Add dynamic tags found in posts (avoiding duplicates)
       const existingTags = new Set(
         blogPostCategory.children.map((tag) => tag.name.toLowerCase())

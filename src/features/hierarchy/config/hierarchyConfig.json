@@ -2,24 +2,7 @@
   {
     "name": "Personal",
     "type": "root",
-    "children": [
-      {
-        "name": "Blog Post",
-        "type": "category"
-      },
-      {
-        "name": "Welcome to My Blog",
-        "type": "post",
-        "postData": {
-          "id": "post-2020-08-17-welcome-to-my-blog",
-          "label": "Welcome to My Blog",
-          "description": "Blog post published date unknown",
-          "category": "Blog Post",
-          "url": "/posts/2020-08-17-welcome-to-my-blog",
-          "tags": ["introduction"]
-        }
-      }
-    ]
+    "children": []
   },
   {
     "name": "Technology",

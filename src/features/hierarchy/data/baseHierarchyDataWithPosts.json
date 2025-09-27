@@ -4,17 +4,13 @@
     "type": "root",
     "children": [
       {
-        "name": "Blog Post",
-        "type": "category"
-      },
-      {
         "name": "Welcome to My Blog",
         "type": "post",
         "postData": {
           "id": "post-2020-08-17-welcome-to-my-blog",
           "label": "Welcome to My Blog",
           "description": "Blog post published date unknown",
-          "category": "Blog Post",
+          "category": "Personal",
           "url": "/posts/2020-08-17-welcome-to-my-blog",
           "tags": [
             "introduction"
@@ -22,25 +18,11 @@
         }
       },
       {
-        "name": "Welcome to My Blog",
-        "type": "post",
-        "postData": {
-          "id": "post-2020-08-17-welcome-to-my-blog",
-          "label": "Welcome to My Blog",
-          "description": "Blog post published date unknown",
-          "category": "Blog Post",
-          "url": "/posts/2020-08-17-welcome-to-my-blog",
-          "tags": [
-            "introduction"
-          ]
-        }
-      },
-      {
-        "name": "**A Holiday That Turned into an English Test**",
+        "name": "A Holiday That Turned into an English Test",
         "type": "post",
         "postData": {
           "id": "post-2025-08-22-a-holiday-that-turned-into-an-english-test",
-          "label": "**A Holiday That Turned into an English Test**",
+          "label": "A Holiday That Turned into an English Test",
           "description": "Blog post published 8/22/2025",
           "category": "Blog Post",
           "url": "/posts/2025-08-22-a-holiday-that-turned-into-an-english-test",

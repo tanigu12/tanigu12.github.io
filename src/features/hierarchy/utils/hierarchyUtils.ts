@@ -1,4 +1,8 @@
-import { KnowledgeNode, KnowledgeEdge, ExpansionState } from "@/features/node/types";
+import {
+  KnowledgeNode,
+  KnowledgeEdge,
+  ExpansionState,
+} from "@/features/node/types";
 import { HierarchyNode } from "../types";
 import {
   createRootNode,
@@ -25,8 +29,8 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
   function processNode(
     hierarchyNode: HierarchyNode,
     level: number,
-    parentId?: string,
-    parentPosition?: { x: number; y: number }
+    parentId: string,
+    parentPosition: { x: number; y: number }
   ): void {
     const hasChildren = !!(
       hierarchyNode.children && hierarchyNode.children.length > 0
@@ -55,7 +59,7 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
         reactFlowNode = createCategoryNode(
           hierarchyNode.name,
           parentId!,
-          parentPosition!,
+          parentPosition,
           categoryIndex,
           hasChildren
         );
@@ -70,7 +74,7 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
         reactFlowNode = createTagNode(
           hierarchyNode.name,
           parentId!,
-          parentPosition!,
+          parentPosition,
           tagIndex
         );
         break;
@@ -84,24 +88,13 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
         reactFlowNode = createPostNode(
           hierarchyNode,
           parentId!,
-          parentPosition!,
+          parentPosition,
           postIndex
         );
         break;
 
       default:
         return;
-    }
-
-    // Apply visibility rules for nested nodes
-    if (
-      level > 1 ||
-      (level === 1 && parentId && !nodeMap.get(parentId)?.data.isExpanded)
-    ) {
-      reactFlowNode = {
-        ...reactFlowNode,
-        hidden: true,
-      };
     }
 
     nodes.push(reactFlowNode);
@@ -115,9 +108,13 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
     }
   }
 
+  // for debugging
+  // console.log("nodes", nodes);
+  // console.log("hierarchyData", hierarchyData);
+
   // Process all root nodes
   hierarchyData.forEach((rootNode) => {
-    processNode(rootNode, 0);
+    processNode(rootNode, 0, "", { x: 0, y: 0 });
   });
 
   return nodes;
@@ -190,4 +187,3 @@ export function createHierarchicalEdges(
 
   return edges;
 }
-
