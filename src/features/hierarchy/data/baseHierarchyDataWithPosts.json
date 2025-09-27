@@ -37,6 +37,26 @@
         }
       },
       {
+        "name": "IELTS Speaking Part 1: Work Preferences and Challenges",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-09-27-ielts-speaking-part1-work-preferences",
+          "label": "IELTS Speaking Part 1: Work Preferences and Challenges",
+          "description": "Blog post published 9/27/2025",
+          "category": "Blog Post",
+          "url": "/posts/2025-09-27-ielts-speaking-part1-work-preferences",
+          "tags": [
+            "ielts",
+            "english",
+            "speaking",
+            "test-preparation",
+            "work",
+            "problem-solving",
+            "stress-management"
+          ]
+        }
+      },
+      {
         "name": "IELTS Speaking Part 1: Preparing My Work Experience Story",
         "type": "post",
         "postData": {
