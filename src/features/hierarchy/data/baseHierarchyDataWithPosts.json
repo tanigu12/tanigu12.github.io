@@ -10,7 +10,7 @@
           "id": "post-2020-08-17-welcome-to-my-blog",
           "label": "Welcome to My Blog",
           "description": "Blog post published date unknown",
-          "category": "Personal",
+          "category": "Blog Post",
           "url": "/posts/2020-08-17-welcome-to-my-blog",
           "tags": [
             "introduction"

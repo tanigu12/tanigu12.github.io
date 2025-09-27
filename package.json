@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx ts-node --esm src/features/hierarchy/utils/generateBaseHierarchyDataWithPosts.ts && next dev --turbopack",
-    "build": "npx ts-node --esm src/features/hierarchy/utils/generateBaseHierarchyDataWithPosts.ts && next build --turbopack",
+    "dev": "npx ts-node --esm --project tsconfig.node.json src/features/hierarchy/utils/generateBaseHierarchyDataWithPosts.ts && next dev --turbopack",
+    "build": "npx ts-node --esm --project tsconfig.node.json src/features/hierarchy/utils/generateBaseHierarchyDataWithPosts.ts && next build --turbopack",
     "start": "next start",
     "preview": "npx serve out",
     "lint": "eslint src --ext .ts,.tsx --fix",
