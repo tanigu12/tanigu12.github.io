@@ -24,7 +24,7 @@ export function createRootNode(
       isExpanded: ExpansionState.Expanded, // Root nodes start expanded
     },
     type: "expandableNode",
-    hidden: false,
+    hidden: true,
   };
 }
 
@@ -59,7 +59,7 @@ export function createCategoryNode(
       isExpanded: ExpansionState.Collapsed, // Categories start collapsed
     },
     type: "expandableNode",
-    hidden: false, // Initially hidden until parent is expanded
+    hidden: true, // Initially hidden until parent is expanded
   };
 }
 
@@ -88,7 +88,7 @@ export function createTagNode(
       isExpanded: ExpansionState.Collapsed,
     },
     type: "expandableNode",
-    hidden: false,
+    hidden: true,
   };
 }
 
@@ -126,6 +126,6 @@ export function createPostNode(
       tags: hierarchyNode.postData!.tags,
     },
     type: "expandableNode",
-    hidden: false,
+    hidden: true,
   };
 }
