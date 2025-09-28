@@ -33,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           
           return {
             url: `${baseUrl}/posts/${slug}`,
-            lastModified: data.date ? new Date(data.date) : new Date(),
+            lastModified: data.datetime ? new Date(data.datetime) : new Date(),
             changeFrequency: 'monthly' as const,
             priority: 0.8,
           }

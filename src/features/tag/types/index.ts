@@ -9,7 +9,7 @@ export interface TaggedPost {
   id: string;
   title: string;
   slug: string;
-  date: string;
+  datetime: string;
   tags: string[];
   categories?: string[];
 }

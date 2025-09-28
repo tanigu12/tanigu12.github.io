@@ -5,7 +5,7 @@ import { join } from "path";
 
 export interface PostData {
   title: string;
-  date?: string;
+  datetime?: string;
   categories?: string[];
   tags?: string[];
   description?: string;

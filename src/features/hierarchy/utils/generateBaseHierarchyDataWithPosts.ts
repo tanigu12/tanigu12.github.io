@@ -42,7 +42,7 @@ function generateBaseHierarchyDataWithPosts(): HierarchyNode[] {
         id: nodeId,
         label: post.title,
         description: `Blog post published ${
-          post.date ? new Date(post.date).toLocaleDateString() : "date unknown"
+          post.datetime ? new Date(post.datetime).toLocaleDateString() : "date unknown"
         }`,
         category: post.categories?.[0] || "Blog Post",
         url: postUrl,

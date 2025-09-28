@@ -23,7 +23,7 @@ export function getAllPostsWithTags(): TaggedPost[] {
     id: post.id,
     title: post.title,
     slug: post.slug,
-    date: post.date,
+    datetime: post.datetime,
     tags: post.tags,
     categories: post.categories,
   }));

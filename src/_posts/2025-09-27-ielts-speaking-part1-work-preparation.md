@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "IELTS Speaking Part 1: Preparing My Work Experience Story"
-date: 2025-09-27
+datetime: 2025-09-27T10:00:00+09:00
 categories: ["IELTS"]
 tags: [ielts, english, speaking, test-preparation, work, career-change]
 ---

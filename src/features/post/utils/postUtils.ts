@@ -30,7 +30,7 @@ export function getAllPosts(): Post[] {
           id: slug,
           title: data.title || filename,
           slug,
-          date: data.date || "",
+          datetime: data.datetime || "",
           tags: data.tags || [],
           categories: data.categories || [],
           description: data.description,
@@ -39,8 +39,8 @@ export function getAllPosts(): Post[] {
       });
 
     return posts.sort((a, b) => {
-      if (a.date && b.date) {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      if (a.datetime && b.datetime) {
+        return new Date(b.datetime).getTime() - new Date(a.datetime).getTime();
       }
       return 0;
     });

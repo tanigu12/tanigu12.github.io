@@ -15,10 +15,10 @@ export default function PostPageClient({ frontmatter, content }: PostPageClientP
       <article className="prose prose-lg mx-auto">
         <header className="mb-8">
           <h1 className="text-3xl font-bold mb-4">{frontmatter.title}</h1>
-          {frontmatter.date && (
+          {frontmatter.datetime && (
             <div className="text-gray-600 mb-4">
-              <time dateTime={frontmatter.date}>
-                {new Date(frontmatter.date).toLocaleDateString()}
+              <time dateTime={frontmatter.datetime}>
+                {new Date(frontmatter.datetime).toLocaleDateString()}
               </time>
             </div>
           )}

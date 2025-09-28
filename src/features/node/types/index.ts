@@ -12,7 +12,7 @@ export interface KnowledgeNode extends Node {
     description?: string;
     category?: string;
     url?: string;
-    date?: string;
+    datetime?: string;
     tags?: string[];
     isExpanded?: ExpansionState;
     hasChildren?: boolean;

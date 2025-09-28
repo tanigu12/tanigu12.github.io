@@ -23,7 +23,7 @@ export function getPostMetadata(slug: string): Metadata {
     frontmatter.excerpt ||
     content.slice(0, 160) + "...";
   const title = frontmatter.title;
-  const publishedTime = frontmatter.date;
+  const publishedTime = frontmatter.datetime;
   const keywords = [
     ...(frontmatter.categories || []),
     ...(frontmatter.tags || []),

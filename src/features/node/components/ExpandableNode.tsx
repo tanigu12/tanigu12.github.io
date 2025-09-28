@@ -91,9 +91,9 @@ export function ExpandableNode({
                 {data.description}
               </div>
             )}
-            {data.date && (
+            {data.datetime && (
               <div className="text-xs text-gray-400 mt-1">
-                {new Date(data.date).toLocaleDateString()}
+                {new Date(data.datetime).toLocaleDateString()}
               </div>
             )}
           </div>

@@ -7,20 +7,6 @@
     },
     "children": [
       {
-        "name": "Welcome to My Blog",
-        "type": "post",
-        "postData": {
-          "id": "post-2025-08-17-welcome-to-my-blog",
-          "label": "Welcome to My Blog",
-          "description": "Blog post published date unknown",
-          "category": "Personal",
-          "url": "/posts/2025-08-17-welcome-to-my-blog",
-          "tags": [
-            "introduction"
-          ]
-        }
-      },
-      {
         "name": "A Holiday That Turned into an English Test",
         "type": "post",
         "postData": {
@@ -38,6 +24,20 @@
             "growth"
           ]
         }
+      },
+      {
+        "name": "Welcome to My Blog",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-08-17-welcome-to-my-blog",
+          "label": "Welcome to My Blog",
+          "description": "Blog post published 8/17/2025",
+          "category": "Personal",
+          "url": "/posts/2025-08-17-welcome-to-my-blog",
+          "tags": [
+            "introduction"
+          ]
+        }
       }
     ]
   },
@@ -45,6 +45,25 @@
     "name": "IELTS",
     "type": "root",
     "children": [
+      {
+        "name": "IELTS Speaking Part 1: Preparing My Work Experience Story",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-09-27-ielts-speaking-part1-work-preparation",
+          "label": "IELTS Speaking Part 1: Preparing My Work Experience Story",
+          "description": "Blog post published 9/27/2025",
+          "category": "IELTS",
+          "url": "/posts/2025-09-27-ielts-speaking-part1-work-preparation",
+          "tags": [
+            "ielts",
+            "english",
+            "speaking",
+            "test-preparation",
+            "work",
+            "career-change"
+          ]
+        }
+      },
       {
         "name": "IELTS Speaking Part 1: Work Preferences and Challenges",
         "type": "post",
@@ -62,25 +81,6 @@
             "work",
             "problem-solving",
             "stress-management"
-          ]
-        }
-      },
-      {
-        "name": "IELTS Speaking Part 1: Preparing My Work Experience Story",
-        "type": "post",
-        "postData": {
-          "id": "post-2025-09-27-ielts-speaking-part1-work-preparation",
-          "label": "IELTS Speaking Part 1: Preparing My Work Experience Story",
-          "description": "Blog post published 9/27/2025",
-          "category": "IELTS",
-          "url": "/posts/2025-09-27-ielts-speaking-part1-work-preparation",
-          "tags": [
-            "ielts",
-            "english",
-            "speaking",
-            "test-preparation",
-            "work",
-            "career-change"
           ]
         }
       }

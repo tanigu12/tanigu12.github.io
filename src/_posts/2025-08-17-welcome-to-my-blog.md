@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Welcome to My Blog
+datetime: 2025-08-17T09:00:00+09:00
 gh-repo: tanigu12/tanigu12.github.io.git
 categories: ["Personal"]
 tags: [introduction]
