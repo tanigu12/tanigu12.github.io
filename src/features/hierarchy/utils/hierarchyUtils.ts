@@ -30,12 +30,16 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
     hierarchyNode: HierarchyNode,
     level: number,
     parentId: string,
-    parentPosition: { x: number; y: number }
+    parentPosition: { x: number; y: number },
+    parentShouldShowChildren: boolean = false
   ): void {
     const hasChildren = !!(
       hierarchyNode.children && hierarchyNode.children.length > 0
     );
     let reactFlowNode: KnowledgeNode;
+
+    // Determine if this node should be visible
+    const shouldBeVisible = level === 0 || parentShouldShowChildren;
 
     // Create node based on type using utility functions
     switch (hierarchyNode.type) {
@@ -63,6 +67,10 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
           categoryIndex,
           hasChildren
         );
+        // Override visibility for child nodes
+        if (shouldBeVisible) {
+          reactFlowNode.hidden = false;
+        }
         break;
 
       case "tag":
@@ -77,6 +85,10 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
           parentPosition,
           tagIndex
         );
+        // Override visibility for child nodes
+        if (shouldBeVisible) {
+          reactFlowNode.hidden = false;
+        }
         break;
 
       case "post":
@@ -91,6 +103,10 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
           parentPosition,
           postIndex
         );
+        // Override visibility for child nodes
+        if (shouldBeVisible) {
+          reactFlowNode.hidden = false;
+        }
         break;
 
       default:
@@ -102,8 +118,9 @@ function processHierarchyData(hierarchyData: HierarchyNode[]): KnowledgeNode[] {
 
     // Process children recursively
     if (hierarchyNode.children) {
+      const shouldShowChildren = hierarchyNode.options?.initialExpand === true;
       hierarchyNode.children.forEach((child) => {
-        processNode(child, level + 1, reactFlowNode.id, reactFlowNode.position);
+        processNode(child, level + 1, reactFlowNode.id, reactFlowNode.position, shouldShowChildren);
       });
     }
   }

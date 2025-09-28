@@ -24,7 +24,7 @@ export function createRootNode(
       isExpanded: ExpansionState.Expanded, // Root nodes start expanded
     },
     type: "expandableNode",
-    hidden: true,
+    hidden: false, // Root nodes should be visible
   };
 }
 
