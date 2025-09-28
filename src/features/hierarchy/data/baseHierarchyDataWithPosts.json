@@ -13,7 +13,7 @@
           "id": "post-2025-08-17-welcome-to-my-blog",
           "label": "Welcome to My Blog",
           "description": "Blog post published date unknown",
-          "category": "Blog Post",
+          "category": "Personal",
           "url": "/posts/2025-08-17-welcome-to-my-blog",
           "tags": [
             "introduction"
@@ -21,13 +21,38 @@
         }
       },
       {
+        "name": "A Holiday That Turned into an English Test",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-08-22-a-holiday-that-turned-into-an-english-test",
+          "label": "A Holiday That Turned into an English Test",
+          "description": "Blog post published 8/22/2025",
+          "category": "Personal",
+          "url": "/posts/2025-08-22-a-holiday-that-turned-into-an-english-test",
+          "tags": [
+            "english",
+            "learning",
+            "travel",
+            "cebu",
+            "development",
+            "growth"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "IELTS",
+    "type": "root",
+    "children": [
+      {
         "name": "IELTS Speaking Part 1: Work Preferences and Challenges",
         "type": "post",
         "postData": {
           "id": "post-2025-09-27-ielts-speaking-part1-work-preferences",
           "label": "IELTS Speaking Part 1: Work Preferences and Challenges",
           "description": "Blog post published 9/27/2025",
-          "category": "Blog Post",
+          "category": "IELTS",
           "url": "/posts/2025-09-27-ielts-speaking-part1-work-preferences",
           "tags": [
             "ielts",
@@ -47,7 +72,7 @@
           "id": "post-2025-09-27-ielts-speaking-part1-work-preparation",
           "label": "IELTS Speaking Part 1: Preparing My Work Experience Story",
           "description": "Blog post published 9/27/2025",
-          "category": "Blog Post",
+          "category": "IELTS",
           "url": "/posts/2025-09-27-ielts-speaking-part1-work-preparation",
           "tags": [
             "ielts",
@@ -58,32 +83,8 @@
             "career-change"
           ]
         }
-      },
-      {
-        "name": "A Holiday That Turned into an English Test",
-        "type": "post",
-        "postData": {
-          "id": "post-2025-08-22-a-holiday-that-turned-into-an-english-test",
-          "label": "A Holiday That Turned into an English Test",
-          "description": "Blog post published 8/22/2025",
-          "category": "Blog Post",
-          "url": "/posts/2025-08-22-a-holiday-that-turned-into-an-english-test",
-          "tags": [
-            "english",
-            "learning",
-            "travel",
-            "cebu",
-            "development",
-            "growth"
-          ]
-        }
       }
     ]
-  },
-  {
-    "name": "IELTS",
-    "type": "root",
-    "children": []
   },
   {
     "name": "Technology",

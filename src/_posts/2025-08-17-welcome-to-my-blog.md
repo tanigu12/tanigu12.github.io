@@ -2,7 +2,7 @@
 layout: post
 title: Welcome to My Blog
 gh-repo: tanigu12/tanigu12.github.io.git
-categories: ["Blog Post"]
+categories: ["Personal"]
 tags: [introduction]
 comments: true
 mathjax: true

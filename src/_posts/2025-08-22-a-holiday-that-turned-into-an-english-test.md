@@ -2,7 +2,7 @@
 layout: post
 title: "A Holiday That Turned into an English Test"
 date: 2025-08-22
-categories: ["Blog Post"]
+categories: ["Personal"]
 tags: [english, learning, travel, cebu, development, growth]
 ---
 

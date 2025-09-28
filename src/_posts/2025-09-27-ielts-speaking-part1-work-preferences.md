@@ -2,7 +2,7 @@
 layout: post
 title: "IELTS Speaking Part 1: Work Preferences and Challenges"
 date: 2025-09-27
-categories: ["Blog Post"]
+categories: ["IELTS"]
 tags:
   [
     ielts,
