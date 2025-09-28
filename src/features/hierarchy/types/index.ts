@@ -1,5 +1,5 @@
 
-interface PostData {
+export interface PostData {
   id: string;
   label: string;
   description: string;
@@ -11,6 +11,9 @@ interface PostData {
 export interface HierarchyNode {
   name: string;
   type: "root" | "category" | "tag" | "post";
+  options?: {
+    initialExpand?: boolean;
+  };
   children?: HierarchyNode[];
   postData?: PostData;
 }

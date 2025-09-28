@@ -2,6 +2,14 @@
   {
     "name": "Personal",
     "type": "root",
+    "options": {
+      "initialExpand": true
+    },
+    "children": []
+  },
+  {
+    "name": "IELTS",
+    "type": "root",
     "children": []
   },
   {

@@ -1,29 +1,20 @@
-import matter from "gray-matter";
-import { readFileSync, readdirSync, existsSync, writeFileSync } from "fs";
+/**
+ * IMPORTANT: This file is executed during the build process!
+ * 
+ * This script generates the hierarchy data with posts that is used by the knowledge map.
+ * It's run as part of the build process (see package.json build script) to:
+ * 1. Read all blog posts from src/_posts/
+ * 2. Extract tags and create a hierarchical structure
+ * 3. Generate the baseHierarchyDataWithPosts.json file
+ * 
+ * DO NOT REMOVE this file or its entry in knip.json - it's essential for the build!
+ */
+
+import { writeFileSync, readFileSync } from "fs";
 import { join } from "path";
-
-interface PostData {
-  id: string;
-  label: string;
-  description: string;
-  category: string;
-  url: string;
-  tags: string[];
-}
-
-interface HierarchyNode {
-  name: string;
-  type: "root" | "category" | "tag" | "post";
-  children?: HierarchyNode[];
-  postData?: PostData;
-}
-
-interface PostFrontMatter {
-  title?: string;
-  date?: string;
-  categories?: string[];
-  tags?: string[];
-}
+import { getAllPosts } from "@/features/post/utils/postUtils";
+import { extractAllTags, getAllPostsWithTags } from "@/features/tag/utils/tagUtils";
+import { HierarchyNode, PostData } from "../types";
 
 function loadBaseHierarchyConfig(): HierarchyNode[] {
   try {
@@ -40,52 +31,35 @@ function loadBaseHierarchyConfig(): HierarchyNode[] {
 }
 
 function generateBaseHierarchyDataWithPosts(): HierarchyNode[] {
-  const postsDirectory = join(process.cwd(), "src/_posts");
-
-  if (!existsSync(postsDirectory)) {
-    return [];
-  }
-
   try {
-    const filenames = readdirSync(postsDirectory);
+    const allPosts = getAllPosts();
     const posts: HierarchyNode[] = [];
 
-    filenames
-      .filter((name) => name.endsWith(".md"))
-      .forEach((filename) => {
-        const fullPath = join(postsDirectory, filename);
-        const fileContents = readFileSync(fullPath, "utf8");
-        const { data } = matter(fileContents) as any as {
-          data: PostFrontMatter;
-        };
+    allPosts.forEach((post) => {
+      const nodeId = `post-${post.slug}`;
+      const postUrl = `/posts/${post.slug}`;
 
-        const slug = filename.replace(/\.md$/, "");
-        const postUrl = `/posts/${slug}`;
-        const nodeId = `post-${slug}`;
+      const postData: PostData = {
+        id: nodeId,
+        label: post.title,
+        description: `Blog post published ${
+          post.date ? new Date(post.date).toLocaleDateString() : "date unknown"
+        }`,
+        category: post.categories?.[0] || "Blog Post",
+        url: postUrl,
+        tags: post.tags,
+      };
 
-        const postData: PostData = {
-          id: nodeId,
-          label: data.title || filename,
-          description: `Blog post published ${
-            data.date
-              ? new Date(data.date).toLocaleDateString()
-              : "date unknown"
-          }`,
-          category: data.categories?.[0] || "Blog Post",
-          url: postUrl,
-          tags: data.tags || [],
-        };
-
-        posts.push({
-          name: data.title || filename,
-          type: "post",
-          postData,
-        });
+      posts.push({
+        name: post.title,
+        type: "post",
+        postData,
       });
+    });
 
     return posts;
   } catch (error) {
-    console.error("Error reading posts directory:", error);
+    console.error("Error generating post hierarchy data:", error);
     return [];
   }
 }
@@ -95,13 +69,8 @@ function generateHierarchyWithPosts(): HierarchyNode[] {
   const baseHierarchy = loadBaseHierarchyConfig();
   const posts = generateBaseHierarchyDataWithPosts();
 
-  // Collect all unique tags from posts
-  const allTags = new Set<string>();
-  posts.forEach((post) => {
-    if (post.postData?.tags) {
-      post.postData.tags.forEach((tag) => allTags.add(tag.toLowerCase()));
-    }
-  });
+  // Get all unique tags using the tag management system
+  const allTags = extractAllTags(getAllPostsWithTags());
 
   // Deep clone the base hierarchy to avoid modifying the original
   const hierarchy: HierarchyNode[] = JSON.parse(JSON.stringify(baseHierarchy));
@@ -109,29 +78,20 @@ function generateHierarchyWithPosts(): HierarchyNode[] {
   // Find the Personal root and add dynamic content
   const personalRoot = hierarchy.find((root) => root.name === "Personal");
   if (personalRoot && personalRoot.children) {
-    // const personalPosts = posts.filter(
-    //   (post) => post.postData?.category === "personal"
-    // );
-    // personalRoot.children.push(...personalPosts);
-
     // Find the Blog Post category and add dynamic tags
     const blogPostCategory = personalRoot.children.find(
       (child) => child.name === "Blog Post"
     );
     if (blogPostCategory && blogPostCategory.children) {
-      // const blogPosts = posts.filter(
-      //   (post) => post.postData?.category === "blog-posts"
-      // );
-      // blogPostCategory.children.push(...blogPosts);
-
       // Add dynamic tags found in posts (avoiding duplicates)
       const existingTags = new Set(
         blogPostCategory.children.map((tag) => tag.name.toLowerCase())
       );
-      Array.from(allTags).forEach((tag) => {
-        if (!existingTags.has(tag)) {
+
+      allTags.forEach((tag) => {
+        if (!existingTags.has(tag.name.toLowerCase())) {
           blogPostCategory.children!.push({
-            name: tag,
+            name: tag.name,
             type: "tag",
           });
         }

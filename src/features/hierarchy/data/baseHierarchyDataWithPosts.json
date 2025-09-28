@@ -2,6 +2,9 @@
   {
     "name": "Personal",
     "type": "root",
+    "options": {
+      "initialExpand": true
+    },
     "children": [
       {
         "name": "Welcome to My Blog",
@@ -14,25 +17,6 @@
           "url": "/posts/2025-08-17-welcome-to-my-blog",
           "tags": [
             "introduction"
-          ]
-        }
-      },
-      {
-        "name": "A Holiday That Turned into an English Test",
-        "type": "post",
-        "postData": {
-          "id": "post-2025-08-22-a-holiday-that-turned-into-an-english-test",
-          "label": "A Holiday That Turned into an English Test",
-          "description": "Blog post published 8/22/2025",
-          "category": "Blog Post",
-          "url": "/posts/2025-08-22-a-holiday-that-turned-into-an-english-test",
-          "tags": [
-            "english",
-            "learning",
-            "travel",
-            "cebu",
-            "development",
-            "growth"
           ]
         }
       },
@@ -74,8 +58,32 @@
             "career-change"
           ]
         }
+      },
+      {
+        "name": "A Holiday That Turned into an English Test",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-08-22-a-holiday-that-turned-into-an-english-test",
+          "label": "A Holiday That Turned into an English Test",
+          "description": "Blog post published 8/22/2025",
+          "category": "Blog Post",
+          "url": "/posts/2025-08-22-a-holiday-that-turned-into-an-english-test",
+          "tags": [
+            "english",
+            "learning",
+            "travel",
+            "cebu",
+            "development",
+            "growth"
+          ]
+        }
       }
     ]
+  },
+  {
+    "name": "IELTS",
+    "type": "root",
+    "children": []
   },
   {
     "name": "Technology",

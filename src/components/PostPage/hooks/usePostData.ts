@@ -12,6 +12,7 @@ export interface PostData {
   excerpt?: string;
 }
 
+
 interface PostContent {
   frontmatter: PostData;
   content: string;
