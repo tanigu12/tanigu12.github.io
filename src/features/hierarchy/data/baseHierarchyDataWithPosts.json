@@ -87,6 +87,26 @@
           ],
           "datetime": "2025-09-27T02:00:00.000Z"
         }
+      },
+      {
+        "name": "IELTS Speaking Part 1: Hometown Questions - Practice and Preparation",
+        "type": "post",
+        "postData": {
+          "id": "post-2025-09-28-ielts-speaking-part1-hometown-practice",
+          "label": "IELTS Speaking Part 1: Hometown Questions - Practice and Preparation",
+          "description": "Blog post published 9/28/2025",
+          "category": "IELTS",
+          "url": "/posts/2025-09-28-ielts-speaking-part1-hometown-practice",
+          "tags": [
+            "ielts",
+            "english",
+            "speaking",
+            "test-preparation",
+            "hometown",
+            "personal-stories"
+          ],
+          "datetime": "2025-09-28T06:00:00.000Z"
+        }
       }
     ]
   },
