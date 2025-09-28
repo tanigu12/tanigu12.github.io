@@ -22,7 +22,7 @@ export function getAllPosts(): Post[] {
       .forEach((filename) => {
         const fullPath = join(postsDirectory, filename);
         const fileContents = readFileSync(fullPath, "utf8");
-        const { data } = matter(fileContents) as { data: PostFrontMatter };
+        const { data } = matter(fileContents);
 
         const slug = filename.replace(/\.md$/, "");
 
@@ -33,8 +33,7 @@ export function getAllPosts(): Post[] {
           datetime: data.datetime || "",
           tags: data.tags || [],
           categories: data.categories || [],
-          description: data.description,
-          excerpt: data.excerpt,
+          description: data.description || "",
         });
       });
 

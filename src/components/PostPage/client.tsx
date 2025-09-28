@@ -22,7 +22,7 @@ export default function PostPageClient({ frontmatter, content }: PostPageClientP
               </time>
             </div>
           )}
-          {frontmatter.categories && frontmatter.categories.length > 0 && (
+          {frontmatter.categories.length > 0 && (
             <div className="mb-2">
               <span className="text-sm font-medium text-gray-700">
                 Categories:{" "}
@@ -30,8 +30,7 @@ export default function PostPageClient({ frontmatter, content }: PostPageClientP
               {frontmatter.categories.map((category, index) => (
                 <span key={category} className="text-sm text-blue-600">
                   {category}
-                  {index < (frontmatter.categories?.length ?? 0) - 1 &&
-                    ", "}
+                  {index < frontmatter.categories.length - 1 && ", "}
                 </span>
               ))}
             </div>

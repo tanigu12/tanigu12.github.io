@@ -20,12 +20,11 @@ export function getPostMetadata(slug: string): Metadata {
 
   const description =
     frontmatter.description ||
-    frontmatter.excerpt ||
     content.slice(0, 160) + "...";
   const title = frontmatter.title;
   const publishedTime = frontmatter.datetime;
   const keywords = [
-    ...(frontmatter.categories || []),
+    ...frontmatter.categories,
     ...(frontmatter.tags || []),
     "blog",
     "tech",

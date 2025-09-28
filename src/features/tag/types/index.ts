@@ -11,7 +11,7 @@ export interface TaggedPost {
   slug: string;
   datetime: string;
   tags: string[];
-  categories?: string[];
+  categories: string[];
 }
 
 export interface TagWithPosts extends Tag {

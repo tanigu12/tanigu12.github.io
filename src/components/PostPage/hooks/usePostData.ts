@@ -6,10 +6,9 @@ import { join } from "path";
 export interface PostData {
   title: string;
   datetime?: string;
-  categories?: string[];
+  categories: string[];
   tags?: string[];
-  description?: string;
-  excerpt?: string;
+  description: string;
 }
 
 

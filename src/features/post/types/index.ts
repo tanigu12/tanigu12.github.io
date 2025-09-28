@@ -1,10 +1,9 @@
 export interface PostFrontMatter {
   title?: string;
   datetime?: string;
-  categories?: string[];
+  categories: string[];
   tags?: string[];
-  description?: string;
-  excerpt?: string;
+  description: string;
 }
 
 export interface Post {
@@ -13,9 +12,8 @@ export interface Post {
   slug: string;
   datetime: string;
   tags: string[];
-  categories?: string[];
-  description?: string;
-  excerpt?: string;
+  categories: string[];
+  description: string;
 }
 
 export interface PostWithContent extends Post {
