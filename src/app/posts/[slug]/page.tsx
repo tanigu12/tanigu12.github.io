@@ -7,11 +7,11 @@ import { getPostMetadata } from "@/components/PostPage/hooks/usePostMetadata";
 import { getPostStaticParams } from "@/components/PostPage/hooks/usePostStaticParams";
 
 interface PostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function PostPage({ params }: PostPageProps) {
-  const { slug } = params;
+export default async function PostPage({ params }: PostPageProps) {
+  const { slug } = await params;
   const { frontmatter, content } = getPostData(slug);
 
   return (
@@ -28,7 +28,7 @@ export default function PostPage({ params }: PostPageProps) {
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   return getPostMetadata(slug);
 }
 

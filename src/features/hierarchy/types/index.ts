@@ -6,6 +6,7 @@ export interface PostData {
   category: string;
   url: string;
   tags: string[];
+  datetime: string;
 }
 
 export interface HierarchyNode {

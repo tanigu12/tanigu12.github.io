@@ -42,11 +42,14 @@ function generateBaseHierarchyDataWithPosts(): HierarchyNode[] {
         id: nodeId,
         label: post.title,
         description: `Blog post published ${
-          post.datetime ? new Date(post.datetime).toLocaleDateString() : "date unknown"
+          post.datetime
+            ? new Date(post.datetime).toLocaleDateString()
+            : "date unknown"
         }`,
         category: post.categories[0] || "Blog Post",
         url: postUrl,
         tags: post.tags,
+        datetime: post.datetime,
       };
 
       posts.push({
@@ -75,9 +78,20 @@ function generateHierarchyWithPosts(): HierarchyNode[] {
     );
 
     if (matchingPosts.length > 0 && root.children) {
+      // Sort matching posts by datetime (oldest first)
+      const sortedPosts = matchingPosts.sort((a, b) => {
+        if (a.postData?.datetime && b.postData?.datetime) {
+          return (
+            new Date(a.postData.datetime).getTime() -
+            new Date(b.postData.datetime).getTime()
+          );
+        }
+        return 0;
+      });
+
       return {
         ...root,
-        children: [...root.children, ...matchingPosts],
+        children: [...root.children, ...sortedPosts],
       };
     }
 
