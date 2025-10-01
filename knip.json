@@ -1,9 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": [
-    "src/app/**/*.tsx", 
-    "src/app/**/*.ts",
-    "src/features/hierarchy/utils/generateBaseHierarchyDataWithPosts.ts"
+    "src/app/**/*.tsx",
+    "src/app/**/*.ts"
   ],
   "project": ["src/**/*.ts", "src/**/*.tsx"]
 }
