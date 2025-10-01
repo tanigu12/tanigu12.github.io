@@ -15,8 +15,7 @@ const nodeTypes = {
 
 interface KnowledgeFlowChartProps extends NodeFeatureProps {
   onToggleExpand: (nodeId: string) => void;
-  selectedNodeId?: string | null;
-  selectNode?: (nodeId: string | null) => void;
+  selectNode: (nodeId: string | null) => void;
 }
 
 export function KnowledgeFlowChart({
@@ -26,7 +25,6 @@ export function KnowledgeFlowChart({
   onEdgesChange,
   onConnect,
   onToggleExpand,
-  selectedNodeId,
   selectNode,
 }: KnowledgeFlowChartProps) {
   // Set the global toggle function

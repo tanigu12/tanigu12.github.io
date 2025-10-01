@@ -5,7 +5,6 @@ import { useNodesState, useEdgesState, addEdge } from "@xyflow/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { KnowledgeNode, KnowledgeEdge } from "../types";
 import {
-  nodesAtom,
   edgesAtom,
   selectedNodeIdAtom,
   nodesWithDynamicExpansionAtom,
@@ -19,7 +18,6 @@ export function useKnowledgeFlow(
   initialNodes: KnowledgeNode[],
   initialEdges: KnowledgeEdge[]
 ) {
-  const [, setNodes] = useAtom(nodesAtom);
   const [edges, setEdges] = useAtom(edgesAtom);
   const nodes = useAtomValue(nodesWithDynamicExpansionAtom); // Use nodes with dynamic expansion
   const selectedNodeId = useAtomValue(selectedNodeIdAtom);
@@ -148,7 +146,6 @@ export function useKnowledgeFlow(
     onEdgesChange,
     onConnect,
     onToggleExpand,
-    selectedNodeId,
     selectNode,
     handleArrowKey,
   };

@@ -11,7 +11,6 @@ export default function HomePageClient() {
     onEdgesChange,
     onConnect,
     onToggleExpand,
-    selectedNodeId,
     selectNode,
   } = useKnowledgeFlowChart();
 
@@ -23,7 +22,6 @@ export default function HomePageClient() {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       onToggleExpand={onToggleExpand}
-      selectedNodeId={selectedNodeId}
       selectNode={selectNode}
     />
   );
