@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "IELTS Speaking Part 1: Daily Life & Free Time - Routine and Personal Preferences"
-datetime: 2025-09-29T16:30:00+09:00
+datetime: 2025-10-01T16:30:00+09:00
 categories: ["IELTS"]
 tags:
   [
